@@ -1,0 +1,47 @@
+
+group 'org.sth.jenkins'
+version '1.0.0'
+
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://repo.jenkins-ci.org/releases/" }
+}
+
+// project dependencies
+dependencies {
+    compile group: 'org.codehaus.groovy', name:'groovy-all', version:'2.5.2'
+    compile group: 'com.cloudbees', name: 'groovy-cps', version :'1.30'
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testImplementation("com.lesfurets:jenkins-pipeline-unit:1.7")
+    testImplementation("org.mockito:mockito-core:3.3.3")
+    testCompile("org.junit.jupiter:junit-jupiter-params:5.6.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['vars']
+        }
+    }
+    test {
+        groovy {
+            srcDirs = ['test']
+        }
+    }
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        outputs.upToDateWhen {false}
+        testLogging.showStandardStreams = true
+    }
+}

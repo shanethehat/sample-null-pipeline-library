@@ -1,0 +1,14 @@
+@Library('my-library') _
+
+pipeline {
+  agent none
+  stages {
+    stage('Foo') {
+      steps {
+        script {
+          def foo = doSomething("foo")
+        }
+      }
+    }
+  }
+}
